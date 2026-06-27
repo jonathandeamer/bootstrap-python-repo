@@ -29,11 +29,11 @@ Each skill is an independent plugin, so adding one is purely additive — it nev
 
 Users then install it with `/plugin install <skill>@jd-claude-skills`. Build the skill the rigorous way — brainstorm, draft, then eval — via the skill-creator workflow.
 
-## The name/description appears in three places — keep them in sync
+## Names and descriptions across manifests — keep them in sync
 
-For each skill, the plugin name and one-line description are duplicated across that skill's entry in `marketplace.json`, its `plugin.json`, and its `SKILL.md` frontmatter. Change one, change all three (for that skill).
+For each skill, the plugin **`name`** appears in three places: that skill's entry in `marketplace.json`, its `plugin.json`, and its `SKILL.md` frontmatter. All three must match.
 
-The `description:` in `SKILL.md`'s YAML frontmatter is **not cosmetic** — it is the trigger phrase Claude matches against to decide whether to activate the skill. Editing it changes *when the skill fires*, so treat wording there as behavior, not documentation.
+The **one-line `description`** is shared by only two: the `marketplace.json` entry and `plugin.json` (these should stay identical). The `description:` in `SKILL.md`'s YAML frontmatter is a *different* string and serves a different purpose — it is **not cosmetic**, it is the trigger phrase Claude matches against to decide whether to activate the skill. Editing it changes *when the skill fires*, so treat wording there as behavior, not documentation, and don't try to keep it identical to the marketplace one-liner.
 
 ## Versioning (required for a distributed marketplace)
 
