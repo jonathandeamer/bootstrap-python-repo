@@ -34,16 +34,12 @@ The user is already inside the project directory. Initialize in place with a `sr
 
 ```bash
 git init .
-uv init --lib --no-readme --name <project-name>
+uv init --lib --no-readme --name <project-name> --python <python-version>
 ```
 
-`uv init --lib` scaffolds the `src` layout for you: it creates `src/<package-name>/__init__.py`, `src/<package-name>/py.typed`, and `.python-version`. `uv` derives `<package-name>` from `<project-name>` by lowercasing and replacing hyphens with underscores (e.g. `my-cool-app` → `my_cool_app`), because hyphens are illegal in Python import names. Use this underscored `<package-name>` wherever the package directory is referenced below, and keep the original `<project-name>` only as the distribution name in `pyproject.toml`.
+`uv init --lib` scaffolds the `src` layout for you: it creates `src/<package-name>/__init__.py`, `src/<package-name>/py.typed`, and `.python-version`. `uv` derives `<package-name>` from `<project-name>` by lowercasing and replacing dots and hyphens with underscores (e.g. `my-cool-app` → `my_cool_app`, `acme.tools` → `acme_tools`), because dots and hyphens are illegal in Python import names. Use this underscored `<package-name>` wherever the package directory is referenced below, and keep the original `<project-name>` only as the distribution name in `pyproject.toml`.
 
-`uv init` writes `.python-version` with the latest interpreter installed on your machine, which may be newer than the floor the user chose. Pin it to match so the dev interpreter and the declared floor agree:
-
-```bash
-uv python pin <python-version>
-```
+Passing `--python <python-version>` makes `uv init` use the selected floor for both the generated `requires-python` value and `.python-version`, even when a newer interpreter is available locally.
 
 You'll overwrite the `pyproject.toml` and `.gitignore` that `uv` generated with the templates in step 3.
 
@@ -314,7 +310,7 @@ After setup, these commands are available:
 
 ## Renaming the project later
 
-If the project was started with a placeholder (or just needs a new name), the name is baked into a few predictable places. To rename from `<old-name>` to `<new-name>` — where `<old_package>`/`<new_package>` are the underscored, importable forms — work through these in order:
+If the project was started with a placeholder (or just needs a new name), the name is baked into a few predictable places. To rename from `<old-name>` to `<new-name>` — where `<old_package>`/`<new_package>` are the lowercase, importable forms with dots and hyphens replaced by underscores — work through these in order:
 
 1. Rename the package directory (preserves history): `git mv src/<old_package> src/<new_package>`
 2. Update `[project] name` in `pyproject.toml` to `<new-name>`. `uv_build` derives the package location from this name, so it must match the directory in step 1.
